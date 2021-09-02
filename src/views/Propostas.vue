@@ -55,11 +55,33 @@ export default {
         teste : [],
       }
   },
+  methods:{
+    ajustar_data: function () {
+        this.teste.map(el => {
+            let data = new Date(el.emissionDate).toLocaleDateString("pt-BR");
+            el.emissionDate = data;
+            return el;
+        })
+    },
+    ajustar_money: function(){
+        this.teste.map(el => {
+            let valor = parseInt(el.value);
+            let formatado = valor.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+            el.value = formatado;
+            setTimeout(() => {
+                console.log(formatado);
+            }, 1000);
+            return el;
+        })
+    }
+  },
   mounted: function () {
   },
   created: function () {
       testeapi.getAllPosts().then(data => {
           this.teste = data.data;
+          this.ajustar_data();
+          this.ajustar_money();
       })
   },
     metaInfo: {
@@ -89,6 +111,7 @@ table{
     tbody{
         tr{
             td{
+             
                 border-top: 1px solid #DFE2EB;
                 border-bottom: 1px solid #DFE2EB;
                 padding: 7px 0px;
@@ -132,7 +155,7 @@ table{
         border: 1px solid #DFE2EB;
     }
     .corpo{
-        padding:48px;
+        padding:18px 48px;
     }
 }
 .btn{
